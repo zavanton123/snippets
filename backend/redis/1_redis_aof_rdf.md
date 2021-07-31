@@ -20,7 +20,7 @@ redis-server
 /etc/redis/redis.conf
 ```
 
-### Change the default port via /etc/redis/redis.conf
+### Change the default port 6379 via /etc/redis/redis.conf
 ```
 port 6363
 ```
