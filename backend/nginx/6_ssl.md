@@ -1,6 +1,25 @@
 # SSL
 
-### Redirect all http requests to https
+## Some terminology
+- SSL (Secure Sockets Layer)
+- TLS (Transport Layer Security)
+
+
+### How to improve SSL security?
+- Redirect all http requests to https
+- Disable SSL (use TLS only)
+- Optimise cipher suites
+- Enable DH parameters
+- Enable HSTS
+- Cache SSL sessions
+
+
+### Generate dhparam via openssl
+```
+openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+```
+
+### Update the config at /etc/nginx/nginx.conf
 ```
 user www-data;
 
@@ -30,6 +49,24 @@ http {
     ssl_certificate /etc/nginx/ssl/self.crt;
     ssl_certificate_key /etc/nginx/ssl/self.key;
 
+    #Disable SSL
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+    #Optimise cipher suite
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
+
+    #Enable DH key exchange (i.e. enable DH params)
+    ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+
+    #Enable HSTS
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    #Cache SSL sessions
+    ssl_session_cache shared:SSL:40m;
+    ssl_session_timeout 4h;
+    ssl_session_tickets on;
+
     location / {
       try_files $uri $uri/ =404;
     }
@@ -41,21 +78,3 @@ http {
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
