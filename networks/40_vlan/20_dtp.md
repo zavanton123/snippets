@@ -41,11 +41,53 @@ switchport trunk native vlan 1
 
 
 
+## Manually configure trunks in a multi-switch environment
+### (i.e. all the switches are interconnected by trunks)
 
+### Setup Core Switch 1
+### Setup trunks on switch ports (fa 0/1, gi 0/1, gi o/2)
+```
+en
+conf t
+int fa 0/1
+switchport trunk encapsulation dot1Q
+switchport mode trunk
+switchport nonegotiate
+end
 
+conf t
+int range gi 0/1-2
+switchport trunk encapsulation dot1Q
+switchport mode trunk
+switchport nonegotiage
+end
+wr
+```
 
+### Setup Core Switch 2
+```
+en
+conf t
+int range gi 0/1-2
+switchport trunk encapsulation dot1Q
+switchport mode trunk
+switchport nonegotiage
+end
+wr
+```
 
-
+### Setup Access Switch 
+```
+en
+show cdp neighbors
+conf t
+int range fa 0/2-3
+switchport mode trunk
+switchport nonegotiage
+end
+wr
+show int fa 0/2 switchport
+```
 
 
 
