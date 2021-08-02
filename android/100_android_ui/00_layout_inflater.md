@@ -48,6 +48,7 @@ if (attachToRoot) {
 
 
 ### So how does inflate work?
+- It parses the attributes and passes them as attrs to the view constructor: MyView(context, attrs)
 - It recursively creates View + its LayoutParams
 - It adds the child view and its LayoutParams to the parent root
 - It repeats recursively until the entire inflated view tree is built
