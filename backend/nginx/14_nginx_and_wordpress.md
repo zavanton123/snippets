@@ -221,3 +221,133 @@ sudo systemctl restart nginx
 ### Visit the website to finish the WP installation
 http://ec2-54-93-240-103.eu-central-1.compute.amazonaws.com
 
+
+
+
+
+
+
+
+
+
+
+
+## Enable SSL via certbot
+### install and run certbot
+### go to the certbot site https://certbot.eff.org 
+### and follow the instructions
+### check certbot installation is ok
+```
+certbot --help
+```
+
+### Run default certbot command for nginx
+```
+certbot --nginx
+```
+
+### check the certificates are installed
+```
+ls -la /etc/letsencrypt/live/exevato.com
+```
+
+### Check the modifications made by certbot to nginx config
+```
+user  www-data;
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    client_max_body_size 100M;
+
+    server {
+        if ($host = exevato.com) {
+            return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+        listen       80;
+        server_name  exevato.com;
+        return 404; # managed by Certbot
+    }
+
+    server {
+        server_name  exevato.com;
+
+        root /var/www/html;
+        index index.php;
+
+        location = /favicon.ico {
+                log_not_found off;
+                access_log off;
+        }
+
+        location = /robots.txt {
+                allow all;
+                log_not_found off;
+
+               access_log off;
+        }
+
+        location / {
+                # This is cool because no php is touched for static content.
+                # include the "?$args" part so non-default permalinks doesn't break when using query string
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                include fastcgi_params;
+                fastcgi_intercept_errors on;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+                #The following parameter can be also included in fastcgi_params file
+                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
+
+        listen 443 ssl; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/exevato.com/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/exevato.com/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    }
+}
+```
+
+### Renew the certificates manually
+```
+certbot renew
+```
+
+
+
+
+
+
+
+
+
+
+
+## Create a cron job to renew certificates daily
+```
+crontab -e
+```
+### add this 
+```
+@daily certbot renew
+```
+### show all the cron entries
+```
+crontab -l
+```
+
