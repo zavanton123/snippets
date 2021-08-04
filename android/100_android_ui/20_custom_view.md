@@ -1,16 +1,16 @@
 # Custom View
 
-### Custom View life cycle 
+### View life cycle 
 CustomView constructor -> onAttachedToWindow() -> 
-(after requestLayout() call)
+    (return here after requestLayout() call)
 -> measure() -> onMeasure() -> 
 -> layout() -> onLayout() -> 
-(after invalidate() call)
+    (return here after invalidate() call)
 -> dispatchDraw() -> draw() -> onDraw()
 
 
 
-## Custom view constructor
+## View Constructor
 ### when created from code:
 - CustomView (Context context)
 ### when created from xml:
@@ -30,59 +30,44 @@ CustomView constructor -> onAttachedToWindow() ->
 
 
 ## child.measure()
-
-
-
 ## child.onMeasure()
-protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-int spec = mode | size
+### measureSpec is a binary, it consists of 'mode' (EXACTLY, AT_MOST, UNSPECIFIED) and 'size'
 
-### Types of mode:
-- MeasureSpec.EXACTLY
-- MeasureSpec.AT_MOST
-- MeasureSpec.UNSPECIFIED
+### Basic implementation of onMeasure()
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+  int myDesiredWidth = ...
+  int myDesiredHeight = ...
 
-### resolveSize(int myWidth, int widthMeasureSpec)
-int specMode = MeasureSpec.getMode(widthMeasureSpec)
-int specSize = MeasureSpec.getSize(widthMeasureSpec)
+  int measuredWidth = resolveSize(myDesiredWidth, widthMeasureSpec);
+  int measuredHeight = resolveSize(myDesiredHeight, heightMeasureSpec);
 
-int measuredWidth;
-if (specMode == MeasureSpec.EXACTLY) {
-  measuredWidth = specSize;
-} else if (specMode == MeasureSpec.AT_MOST) {
-  measuredWidth = Math.min(myWidth, specSize);
-} else {
-  measuredWidth = myWidth;
+  setMeasuredDimension(int measuredWidth, int measuredHeight)
 }
 
-setMeasuredDimension(int measuredWidth, int measuredHeight)
+int resolveSize(int mySize, int measureSpec) {
+    int specMode = MeasureSpec.getMode(measureSpec)
+    int specSize = MeasureSpec.getSize(measureSpec)
+
+    int measuredSize;
+    if (specMode == MeasureSpec.EXACTLY) {
+      measuredSize = specSize;
+    } else if (specMode == MeasureSpec.AT_MOST) {
+      measuredSize = Math.min(mySize, specSize);
+    } else {
+      measuredSize = mySize;
+    }
+    return measuredSize;
+}
 
 
 
-## child.getMeasuredWidth() and child.getMeasuredHeight()
 
 
 
-## child.layout()
-### child.getWidth() and child.getHeight()
-
-
-
-## child.onLayout()
+## child.layout() 
+## child.onLayout() (calls child.getMeasuredWidth() and child.getMeasuredHeight())
 
 
 
 ## child.onDraw(Canvas canvas)
-
-
-
-
-
-
-
-
-
-
-
-
 
