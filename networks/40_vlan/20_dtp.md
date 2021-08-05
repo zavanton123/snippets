@@ -88,12 +88,3 @@ end
 wr
 show int fa 0/2 switchport
 ```
-
-
-
-
-
-
-
-
-
