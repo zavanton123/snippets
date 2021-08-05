@@ -35,19 +35,19 @@ exit
 ```
 
 
-### update ~/.bashrc
+### Create /etc/profile.d/maven.sh
 ```
-# App maven to path
+export M2_HOME=/usr/local/maven
 export MAVEN_HOME=/usr/local/maven
-export PATH="${PATH}:${MAVEN_HOME}/bin"
+export PATH=${M2_HOME}/bin:${PATH}
 ```
 
-### check maven installation is ok
+### Change permissions and check maven installation is ok
 ```
-source ~/.bashrc
+chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
 mvn -v
 ```
-
 
 
 ### Install Jenkins
@@ -95,10 +95,7 @@ systemctl status jenkins
 http://localhost:8080
 ```
 
-
-
-
-
-
-
-
+### paste password from here
+```
+vim /var/lib/jenkins/secrets/InitialAdminPassword
+```
