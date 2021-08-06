@@ -6,6 +6,7 @@ https://linuxize.com/post/how-to-install-tomcat-9-on-ubuntu-18-04/
 ```
 
 ### Install Java (OpenJDK)
+### Note: java home will be /usr/lib/jvm/java-11-openjdk-amd64
 ```
 sudo su
 apt-get update -y && apt-get upgrade -y
@@ -55,7 +56,7 @@ Type=forking
 User=tomcat
 Group=tomcat
 
-Environment="JAVA_HOME=/usr/lib/jvm/java/java8"
+Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
 Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
 
 Environment="CATALINA_BASE=/opt/tomcat/latest"
