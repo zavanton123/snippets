@@ -3,6 +3,7 @@
 - Project
 - Project configuration
 - Workspace
+- Views
 - Job
 - Job Queue
 - Executor
@@ -30,7 +31,7 @@ mvn clean package
 ```
 
 
-
+### Install 'Maven Integration' and 'Config File Provider' plugins
 
 
 
