@@ -1,5 +1,13 @@
 # Spring XML configuration
 
+### Spring configuration types:
+- Groovy based
+- XML based
+- Annotation based
+-- Java based (@Bean)
+-- Annotation based (@Autowired, @Service, @Controller)
+
+
 ### pom.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
