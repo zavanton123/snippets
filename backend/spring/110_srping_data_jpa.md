@@ -1,5 +1,26 @@
 # Spring Data JPA
 
+### application.yml
+server:
+  port: 8989
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    password: admin
+    url: jdbc:h2:mem:testdb
+    username: admin
+  h2:
+    console:
+      enabled: true
+      path: /h2/
+      settings:
+        trace: false
+        web-allow-others: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+
+
 ### build.gradle
 plugins {
 	id 'org.springframework.boot' version '2.5.3'
