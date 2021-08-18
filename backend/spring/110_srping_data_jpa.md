@@ -3,6 +3,7 @@
 ### application.yml
 server:
   port: 8989
+  
 spring:
   datasource:
     driverClassName: org.h2.Driver
@@ -18,6 +19,7 @@ spring:
         web-allow-others: false
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
 
 
 
