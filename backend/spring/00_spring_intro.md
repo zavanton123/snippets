@@ -1,4 +1,4 @@
-# Java Spring Boot
+# Spring - Spring Boot Introduction
 
 ### How to install Spring Boot CLI
 ```
